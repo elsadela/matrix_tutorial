@@ -100,3 +100,12 @@ matrix matrix_multiply(matrix m, matrix n){
   }
   return res;
 }
+
+double matrix_trace(matrix m) {
+  if(m.n1!=m.m1 || !m.ok)
+    return 0./0.; // nan
+  double acc = 0.;
+  for(int i = 0; i < m.n1; ++i)
+    acc += *matrix_get(m, i, i);
+  return acc;
+}
