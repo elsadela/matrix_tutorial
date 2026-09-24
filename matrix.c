@@ -109,3 +109,26 @@ double matrix_trace(matrix m) {
     acc += *matrix_get(m, i, i);
   return acc;
 }
+
+matrix matrix_exp(matrix m, unsigned p) {
+  if(m.n1 != m.n2 || !m.ok) return (matrix) {0,0,false,NULL};
+  matrix r = matrix_identity(m.n1);
+  // HACK, add a duplicate function
+  matrix tmp = matrix_create(m.n1, m.n1, 0.);
+  matrix succ_p2 = matrix_add(m, tmp); //successive powers of two powers of matrix m, starts at ^1
+  matrix_destroy(tmp);
+
+  while(p > 0) {
+    if(p%2 == 1) {
+      matrix tmp = matrix_multiply(r, succ_p2);
+      matrix_destroy(r);
+      r = tmp;
+    }
+    matrix tmp = matrix_multiply(succ_p2, succ_p2);
+    matrix_destroy(succ_p2);
+    succ_p2 = tmp;
+    p >>= 1;
+  }
+
+  return r;
+}
