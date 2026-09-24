@@ -88,4 +88,5 @@ matrix matrix_multiply_scalar(matrix m, scalar s){
   for(unsigned i=0; i<n1; ++i)
     for(unsigned j=0; j<n2; ++j)
       *matrix_get(res,i,j) = matrix_get(m, i, j) * s;
+  return res
 }
