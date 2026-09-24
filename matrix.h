@@ -20,5 +20,6 @@ matrix matrix_add(matrix m, matrix n);
 void matrix_print(FILE *f, matrix m);
 matrix matrix_multiply(matrix m, matrix n);
 double matrix_trace(matrix m);
+matrix matrix_exp(matrix m, unsigned p);
 
 #endif /* MATRIX_H */

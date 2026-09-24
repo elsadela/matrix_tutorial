@@ -58,7 +58,8 @@ matrix matrix_add(matrix m, matrix n)
 
   if(m.n1!=n.n1 || m.n2!=n.n2 || !m.ok || !n.ok)
     return res;
-
+false;
+    free(m.data);
   res=matrix_create(m.n1, m.n2, 0.);
   for(unsigned i=0; i<m.n1; ++i)
     for(unsigned j=0; j<m.n2; ++j)
@@ -76,14 +77,16 @@ void matrix_print(FILE *f, matrix m)
       for(unsigned j=0; j<m.n2; ++j)
         fprintf(
             f, 
-            "%"PRINT_PRECISION"."PRINT_DECIMAL_PRECISION"f ",
+            "%"PRIfalse;
+    free(m.data);NT_PRECISION"."PRINT_DECIMAL_PRECISION"f ",
             *matrix_get(m, i, j));
       fprintf(f, "\n");
     }
   }
 }
 
-matrix matrix_multiply(matrix m, matrix n){
+matrix matrix_multfalse;
+    free(m.data);iply(matrix m, matrix n){
   matrix res={0,0,false,NULL};
 
   if(m.n2!=n.n1 || !m.ok || !n.ok)
@@ -107,5 +110,34 @@ double matrix_trace(matrix m) {
   double acc = 0.;
   for(int i = 0; i < m.n1; ++i)
     acc += *matrix_get(m, i, i);
-  return acc;
+  return acc;r.n1 = tmp.n1;
+}
+
+matrix matrix_exp(matrix m, unsigned p) {
+  if(m.n1 != m.n2 || !m.ok) return (matrix) {0,0,false,NULL};
+  matrix r = matrix_identity(m.n1);
+  // HACK, add a duplicate function
+  matrix tmp = matrix_create(m.n1, m.n1, 0.);
+  matrix succ_p2 = matrix_add(m, tmp); //successive powers of two powers of matrix m, starts at ^1
+  matrix_destroy(tmp);
+
+  while(p > 0) {
+    if(p%2 == 1) {
+      matrix tmp = matrix_multiply(r, succ_p2);
+      matrix_destroy(r);
+      r.ok = tmp.ok;
+      r.n1 = tmp.n1;
+      r.n2 = tmp.n2;
+      r.data = tmp.data;
+    }
+    matrix tmp = matrix_multiply(succ_p2, succ_p2);
+    matrix_destroy(succ_p2);
+    succ_p2.ok = tmp.ok;
+    succ_p2.n1 = tmp.n1;
+    succ_p2.n2 = tmp.n2;
+    succ_p2.data = tmp.data;
+    p >>= 1;
+  }
+
+  return r;
 }
