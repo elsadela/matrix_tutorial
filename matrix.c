@@ -82,3 +82,10 @@ void matrix_print(FILE *f, matrix m)
     }
   }
 }
+
+matrix matrix_multiply_scalar(matrix m, scalar s){
+  matrix res = matrix_create(m.n1, m.n2, 0);
+  for(unsigned i=0; i<n1; ++i)
+    for(unsigned j=0; j<n2; ++j)
+      *matrix_get(res,i,j) = matrix_get(m, i, j) * s;
+}
