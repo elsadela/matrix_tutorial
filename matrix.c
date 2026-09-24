@@ -110,7 +110,7 @@ double matrix_trace(matrix m) {
   double acc = 0.;
   for(int i = 0; i < m.n1; ++i)
     acc += *matrix_get(m, i, i);
-  return acc;r.n1 = tmp.n1;
+  return acc;
 }
 
 matrix matrix_exp(matrix m, unsigned p) {
