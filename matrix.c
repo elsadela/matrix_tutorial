@@ -82,3 +82,21 @@ void matrix_print(FILE *f, matrix m)
     }
   }
 }
+
+matrix matrix_multiply(matrix m, matrix n){
+  matrix res={0,0,false,NULL};
+
+  if(m.n2!=n.n1 || !m.ok || !n.ok)
+    return res;
+
+  res=matrix_create(m.n1, n.n2, 0.);
+
+  for(unsigned i=0; i<m.n1; ++i)
+    for(unsigned j=0; j<n.n2; ++j){
+      int sum = 0;
+      for(unsigned k=0; k<m.n2; ++k)
+        sum = sum + (*matrix_get(m, i, k)) * (*matrix_get(n, k, j));
+      *matrix_get(res, i, j) = sum;
+  }
+  return res;
+}
